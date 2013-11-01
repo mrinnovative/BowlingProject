@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+	<bean id="frame" class="main.java.com.bowling.frame.FrameServiceImpl">
+		<property name="MAX_NUM_OF_ROLLS" value="2"/>
+	</bean>
+	
+	<bean id="bowling_game" class="main.java.com.bowling.game.GameServiceImpl">
+		<property name="NUM_OF_FRAMES" value="10"/>
+		<property name="FRAME_SEPERATOR" value="-"/>
+	</bean>
+	
+	<bean id="ten_pin_scoring_system" class="main.java.com.bowling.score.TenPinScoringServiceImpl">
+	</bean>
+	
+	<bean id="logger" class="main.java.com.bowling.logging.BowlingLogger">
+		<constructor-arg value="Bowling Logger"/>
+	</bean>
+	 
+	<bean id="logging_advisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="logger"/>
+		<property name="expression" value="execution(* *(..))"/>
+	</bean>
+</beans>
